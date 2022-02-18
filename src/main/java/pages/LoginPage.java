@@ -2,9 +2,7 @@ package pages;
 
 import context.TestContext;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
     @AndroidFindBy(id = "com.experitest.ExperiBank:id/loginButton")
@@ -18,7 +16,6 @@ public class LoginPage extends BasePage {
 
     public LoginPage(TestContext context) {
         super(context);
-        PageFactory.initElements(new AppiumFieldDecorator(context.androidDriver), this);
     }
 
     public LoginPage inputUsername(String username) {
