@@ -6,6 +6,7 @@ import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +28,24 @@ public class AndroidDriverInstance {
         caps.setCapability("deviceReadyTimeout", 80000);
         caps.setCapability("appWaitDuration", 100000);
         caps.setCapability("newCommandTimeout", 40000);
-        caps.setCapability("app", Constants.APK);
+        if (System.getProperty("androidDriver").equals("SERVER_HUB")) {
+            caps.setCapability("app", Constants.APK_SERVER);
+        } else {
+            caps.setCapability("app", Constants.APK);
+        }
 
-        AndroidDriver<AndroidElement> androidDriver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        AndroidDriver<AndroidElement> androidDriver = fillAndroidDriver(caps);
         androidDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        return androidDriver;
+    }
+
+    private static AndroidDriver<AndroidElement> fillAndroidDriver(DesiredCapabilities caps) throws MalformedURLException {
+        AndroidDriver<AndroidElement> androidDriver;
+        if (System.getProperty("androidDriver").equals("SERVER_HUB")) {
+            androidDriver = new AndroidDriver<>(new URL("http://172.23.0.3:4723/wd/hub"), caps);
+        } else {
+            androidDriver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        }
         return androidDriver;
     }
 }

@@ -31,11 +31,23 @@ What things you need to install:
 - [Java Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [Maven](https://maven.apache.org/install.html)
 - [Appium](https://github.com/appium/appium-desktop/releases/)
+- [Docker](https://docs.docker.com/engine/install/)
+- [Android Studio](https://developer.android.com/studio#downloads)
+- [Portrainer](https://www.portainer.io/) (Additional)
 
 ## How to Run the Project
 * ### Running on local machine
 
     1. Running Appium Server with command `appium -a 127.0.0.1 -p 4723`
-    2. Open the project using any IDE (Eclipse, IDEA, etc)
-    3. Download sources Maven and update the project
-    4. Running the project using command `mvn clean test`
+    2. Open the emulator. You can use AVD or real device.
+    3. Open the project using any IDE (Eclipse, IDEA, etc)
+    4. Download sources Maven and update the project
+    5. Running the project using command `mvn clean test`
+
+* ### Running on Docker Emulator
+
+    1. Running the Docker Emulator using command `docker-compose up -d`. Wait until completely done.
+    2. Check the address container with name `android-9.0`. If different with `AndroidDriverInstance.java`, you can change it manually.
+    3. Open the project using any IDE (Eclipse, IDEA, etc)
+    4. Download sources Maven and update the project
+    5. Running the project using command `mvn clean test -DandroidDriver=SERVER_HUB`
