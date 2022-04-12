@@ -42,7 +42,7 @@ public class AndroidDriverInstance {
     private static AndroidDriver<AndroidElement> fillAndroidDriver(DesiredCapabilities caps) throws MalformedURLException {
         AndroidDriver<AndroidElement> androidDriver;
         if (System.getProperty("androidDriver", "local").equals("SERVER_HUB")) {
-            androidDriver = new AndroidDriver<>(new URL("http://172.23.0.3:4723/wd/hub"), caps);
+            androidDriver = new AndroidDriver<>(new URL(System.getProperty("urlHub", "http://172.23.0.3:4723/wd/hub")), caps);
         } else {
             androidDriver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
         }
