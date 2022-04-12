@@ -31,7 +31,7 @@ jobs:
           
           IP_HUB=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' android-9.0`
           
-          mvn clean test -DandroidDriver=SERVER_HUB -DurlHub=http://$IP_HUB:4444/wd/hub
+          mvn clean test -DandroidDriver=SERVER_HUB -DurlHub=http://$IP_HUB:4723/wd/hub
 
       - name: Copy Cucumber JSON Report
         run: |
