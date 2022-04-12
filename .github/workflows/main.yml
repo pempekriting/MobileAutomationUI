@@ -33,6 +33,8 @@ jobs:
           
           sleep 2m
           
+          docker ps -a
+          
           mvn clean test -DandroidDriver=SERVER_HUB -DurlHub=http://$IP_HUB:4723/wd/hub
 
       - name: Copy Cucumber JSON Report
