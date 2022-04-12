@@ -27,7 +27,7 @@ jobs:
 
           docker version
 
-          docker-compose -f docker-compose.yml up -d
+          docker-compose up -d
           
           IP_HUB=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' android-container`
           
