@@ -1,0 +1,51 @@
+name: Automation Test Runner
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.1.0
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - uses: docker-practice/actions-setup-docker@master
+      - name: Run the test
+        run: |
+          set -x
+
+          docker version
+
+          docker-compose -f docker-compose.yml up -d
+          
+          IP_HUB=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' android-container`
+          
+          mvn clean test -DandroidDriver=SERVER_HUB -DurlHub=http://$IP_HUB:4444/wd/hub
+
+      - name: Copy Cucumber JSON Report
+        run: |
+          cd target
+          cp cucumber.json ../report/
+
+      - name: Commit Files Report # transfer the new html files back into the repository
+        run: |
+          git config --local user.name "pempekriting"
+          git add ./report
+          git commit -m "Updating the repository report"
+
+      - name: Push changes # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
